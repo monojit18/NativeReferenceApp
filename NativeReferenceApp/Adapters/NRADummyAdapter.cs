@@ -2,6 +2,7 @@
 using SharedProject.Generic.BaseClasses;
 using SharedProject.Generic.Interfaces;
 using NativeReferenceApp.Services;
+using System.Threading.Tasks;
 
 namespace NativeReferenceApp.Adapters
 {
@@ -24,7 +25,15 @@ namespace NativeReferenceApp.Adapters
 
         }
 
+        public async Task<string> RetrieveNameAsync()
+        {
 
+            var httpService = _httpService as NRADummyService;
+            var str = await httpService.RetrieveNameAsync();
+            Console.WriteLine(str);
+            return str;
+
+        }
 
     }
 }

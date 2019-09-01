@@ -1,6 +1,10 @@
-﻿using Android.App;
+﻿using System;
+using System.Threading.Tasks;
+using Android.App;
 using Android.Widget;
 using Android.OS;
+using Android.Content;
+using NativeReferenceApp.ViewModels;
 
 namespace NativeReferenceApp.Droid
 {
@@ -8,6 +12,28 @@ namespace NativeReferenceApp.Droid
     public class MainActivity : Activity
     {
         int count = 1;
+
+        private NRAViewModel _nraViewModel;
+
+        private async void NativeButtonClick(object sender, EventArgs e)
+        {
+
+            _nraViewModel.Notify = (object bindingInfo) =>
+            {
+                RunOnUiThread(() =>
+                {
+
+                    var str = (string)bindingInfo;
+                    var ed = FindViewById<EditText>(Resource.Id.editText1);
+                    ed.Text = str;
+
+                });
+
+            };
+
+            await _nraViewModel.RetrieveNameAsync();
+
+        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -18,10 +44,15 @@ namespace NativeReferenceApp.Droid
 
             // Get our button from the layout resource,
             // and attach an event to it
-            Button button = FindViewById<Button>(Resource.Id.myButton);
 
-            button.Click += delegate { button.Text = $"{count++} clicks!"; };
+            _nraViewModel = new NRAViewModel();
+
+            var btn = FindViewById<Button>(Resource.Id.button1);
+            btn.Click += NativeButtonClick;
+
+
         }
+       
     }
 }
 

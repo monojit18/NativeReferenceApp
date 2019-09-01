@@ -1,15 +1,39 @@
 ﻿using System;
-
+using System.Threading.Tasks;
 using UIKit;
+using NativeReferenceApp.ViewModels;
 
 namespace NativeReferenceApp.iOS
 {
     public partial class ViewController : UIViewController
     {
         int count = 1;
+        private NRAViewModel _nraViewModel;
+
+        private async void NativeButtonClick(object sender, EventArgs e)
+        {
+
+            _nraViewModel.Notify = (object bindingInfo) =>
+            {
+                InvokeOnMainThread(() =>
+                {
+
+                    var str = (string)bindingInfo;
+                    NativeTextView.Text = str;
+
+                });
+
+            };
+
+            await _nraViewModel.RetrieveNameAsync();
+
+        }
 
         public ViewController(IntPtr handle) : base(handle)
         {
+
+            _nraViewModel = new NRAViewModel();
+
         }
 
         public override void ViewDidLoad()
@@ -21,14 +45,13 @@ namespace NativeReferenceApp.iOS
             Xamarin.Calabash.Start ();
 #endif
 
-            // Perform any additional setup after loading the view, typically from a nib.
-            Button.AccessibilityIdentifier = "myButton";
-            Button.TouchUpInside += delegate
-            {
-                var title = string.Format("{0} clicks!", count++);
-                Button.SetTitle(title, UIControlState.Normal);
-            };
+
+            NativeButton.TouchUpInside += NativeButtonClick;
+
+            
         }
+
+        
 
         public override void DidReceiveMemoryWarning()
         {

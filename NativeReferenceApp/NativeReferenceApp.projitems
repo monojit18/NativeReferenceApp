@@ -25,12 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\NRADummyService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\NRAHttpService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Subsystems\ResourceLoader\CMPResourceLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NRAiewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NRAViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)SharedResources\Environments.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Views\" />
   </ItemGroup>
 </Project>
